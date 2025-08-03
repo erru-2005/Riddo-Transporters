@@ -24,7 +24,8 @@ export default function LoginScreen() {
       });
     } else {
       setloading(true);
-      const phoneNumber = `${countryCode}${phone_number}`;
+      const phoneNumber = `+91${phone_number}`;
+      console.log(`${process.env.EXPO_PUBLIC_SERVER_URI}/driver/send-otp`)
       await axios
         .post(`${process.env.EXPO_PUBLIC_SERVER_URI}/driver/send-otp`, {
           phone_number: phoneNumber,
