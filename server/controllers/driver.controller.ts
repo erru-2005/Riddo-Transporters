@@ -21,12 +21,12 @@ export const sendingOtpToPhone = async (
     const { phone_number } = req.body;
     console.log(phone_number);
     try {
-      await client.verify.v2
-        ?.services(process.env.TWILIO_SERVICE_SID!)
-        .verifications.create({
-          channel: "sms",
-          to: phone_number,
-        });
+      // await client.verify.v2
+      //   ?.services(process.env.TWILIO_SERVICE_SID!)
+      //   .verifications.create({
+      //     channel: "sms",
+      //     to: phone_number,
+      //   });
 
       res.status(201).json({
         success: true,
@@ -55,12 +55,12 @@ export const verifyPhoneOtpForLogin = async (
     const { phone_number, otp } = req.body;
 
     try {
-      await client.verify.v2
-        .services(process.env.TWILIO_SERVICE_SID!)
-        .verificationChecks.create({
-          to: phone_number,
-          code: otp,
-        });
+      // await client.verify.v2
+      //   .services(process.env.TWILIO_SERVICE_SID!)
+      //   .verificationChecks.create({
+      //     to: phone_number,
+      //     code: otp,
+      //   });
 
       const driver = await prisma.driver.findUnique({
         where: {
@@ -93,12 +93,12 @@ export const verifyPhoneOtpForRegistration = async (
     const { phone_number, otp } = req.body;
 
     try {
-      await client.verify.v2
-        .services(process.env.TWILIO_SERVICE_SID!)
-        .verificationChecks.create({
-          to: phone_number,
-          code: otp,
-        });
+      // await client.verify.v2
+      //   .services(process.env.TWILIO_SERVICE_SID!)
+      //   .verificationChecks.create({
+      //     to: phone_number,
+      //     code: otp,
+      //   });
 
       await sendingOtpToEmail(req, res);
     } catch (error) {
@@ -133,7 +133,7 @@ export const sendingOtpToEmail = async (req: Request, res: Response) => {
     } = req.body;
 
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
-
+    console.log(otp, "otp");
     const driver = {
       name,
       country,
@@ -157,18 +157,18 @@ export const sendingOtpToEmail = async (req: Request, res: Response) => {
       }
     );
     try {
-      await nylas.messages.send({
-        identifier: process.env.USER_GRANT_ID!,
-        requestBody: {
-          to: [{ name: name, email: email }],
-          subject: "Verify your email address!",
-          body: `
-            <p>Hi ${name},</p>
-        <p>Your Ridewave verification code is ${otp}. If you didn't request for this OTP, please ignore this email!</p>
-        <p>Thanks,<br>Ridewave Team</p>
-            `,
-        },
-      });
+      // await nylas.messages.send({
+      //   identifier: process.env.USER_GRANT_ID!,
+      //   requestBody: {
+      //     to: [{ name: name, email: email }],
+      //     subject: "Verify your email address!",
+      //     body: `
+      //       <p>Hi ${name},</p>
+      //   <p>Your Ridewave verification code is ${otp}. If you didn't request for this OTP, please ignore this email!</p>
+      //   <p>Thanks,<br>Ridewave Team</p>
+      //       `,
+      //   },
+      // });
       res.status(201).json({
         success: true,
         token,
